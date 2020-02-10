@@ -10,7 +10,7 @@ try:
 except ImportError:
     now = datetime.now
 
-from managers import VoteManager, SimilarUserManager
+from .managers import VoteManager, SimilarUserManager
 
 class Vote(models.Model):
     content_type    = models.ForeignKey(ContentType, related_name="votes")
@@ -31,7 +31,7 @@ class Vote(models.Model):
         unique_together = (('content_type', 'object_id', 'key', 'user', 'ip_address', 'cookie'))
 
     def __unicode__(self):
-        return u"%s voted %s on %s" % (self.user_display, self.score, self.content_object)
+        return "%s voted %s on %s" % (self.user_display, self.score, self.content_object)
 
     def save(self, *args, **kwargs):
         self.date_changed = now()
@@ -62,7 +62,7 @@ class Score(models.Model):
         unique_together = (('content_type', 'object_id', 'key'),)
 
     def __unicode__(self):
-        return u"%s scored %s with %s votes" % (self.content_object, self.score, self.votes)
+        return "%s scored %s with %s votes" % (self.content_object, self.score, self.votes)
 
 class SimilarUser(models.Model):
     from_user       = models.ForeignKey(User, related_name="similar_users")
@@ -77,7 +77,7 @@ class SimilarUser(models.Model):
         unique_together = (('from_user', 'to_user'),)
 
     def __unicode__(self):
-        print u"%s %s similar to %s" % (self.from_user, self.exclude and 'is not' or 'is', self.to_user)
+        print("%s %s similar to %s" % (self.from_user, self.exclude and 'is not' or 'is', self.to_user))
 
 class IgnoredObject(models.Model):
     user            = models.ForeignKey(User)

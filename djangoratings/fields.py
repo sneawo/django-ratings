@@ -1,13 +1,13 @@
 from django.db.models import IntegerField, PositiveIntegerField
 from django.conf import settings
 
-import forms
+from . import forms
 import itertools
 from datetime import datetime
 
-from models import Vote, Score
-from default_settings import RATINGS_VOTES_PER_IP
-from exceptions import *
+from .models import Vote, Score
+from .default_settings import RATINGS_VOTES_PER_IP
+from .exceptions import *
 
 if 'django.contrib.contenttypes' not in settings.INSTALLED_APPS:
     raise ImportError("djangoratings requires django.contrib.contenttypes in your INSTALLED_APPS")
@@ -125,7 +125,7 @@ class RatingManager(object):
         return
     
     def get_iterable_range(self):
-        return range(1, self.field.range) #started from 1, because 0 is equal to delete
+        return list(range(1, self.field.range)) #started from 1, because 0 is equal to delete
         
     def add(self, score, user, ip_address, cookies={}, commit=True):
         """add(score, user, ip_address)
